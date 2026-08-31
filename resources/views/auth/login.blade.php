@@ -19,7 +19,7 @@
                 <div class="login-side__brand">
                     <span class="login-side__mark">E</span>
                     <span class="login-side__brand-text">
-                        ERKAPOY
+                        Fabrikalar boshqaruv platformasi
                         <small>Ishlab chiqarish</small>
                     </span>
                 </div>
