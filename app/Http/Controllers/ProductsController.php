@@ -289,35 +289,53 @@ class ProductsController extends Controller
 
         $validated = $this->validateProductUpdate($request);
         $syncData = $this->buildSyncData($validated);
+        $companyId = (int) Company::activeId();
 
         $product->load(['xomashyolar', 'ranglar']);
-        $existingRanglar = $product->ranglar->keyBy('id');
 
-        // Avval har bir rang uchun eski/yangi sonini solishtirib, farqni (diff) chiqarib olamiz.
-        // Bu bosqichda hali hech narsa saqlanmaydi — faqat hisob-kitob.
+        // ESKI retsept — kamaytirishda xomashyo SHU bo'yicha qaytariladi
+        $oldRecipe = [];
+        foreach ($product->xomashyolar as $x) {
+            $oldRecipe[(int) $x->id] = (float) $x->pivot->sarf_miqdori;
+        }
+
+        $existingRanglar = $product->ranglar->keyBy(fn ($r) => (int) $r->id);
+
         $ranglar = $validated['ranglar'] ?? [];
         $diffs = [];
         $totalIncrease = 0;
+        $totalDecrease = 0;
 
         foreach ($ranglar as $r) {
-            $rid = $r['id'] ?? null;
+            $rid = isset($r['id']) && $r['id'] !== '' && $r['id'] !== null
+                ? (int) $r['id']
+                : null;
+
             if ($rid && ! $existingRanglar->has($rid)) {
-                $rid = null; // boshqa mahsulotga tegishli/yo'q id — yangi rang sifatida ko'ramiz
+                $rid = null; // boshqa mahsulot / yo'q id
             }
 
-            $rangi = $r['rangi'];
+            $rangi = trim((string) ($r['rangi'] ?? ''));
             $newSoni = (int) ($r['soni'] ?? 0);
             $oldSoni = $rid ? (int) $existingRanglar[$rid]->soni : 0;
             $diff = $newSoni - $oldSoni;
 
             if ($diff > 0) {
                 $totalIncrease += $diff;
+            } elseif ($diff < 0) {
+                $totalDecrease += abs($diff);
             }
 
-            $diffs[] = ['id' => $rid, 'rangi' => $rangi, 'diff' => $diff];
+            $diffs[] = [
+                'id'      => $rid,
+                'rangi'   => $rangi,
+                'newSoni' => $newSoni,
+                'oldSoni' => $oldSoni,
+                'diff'    => $diff,
+            ];
         }
 
-        // Soni oshirilsa — yangi retsept bo'yicha xomashyo yetarli ekanini oldindan tekshiramiz.
+        // Soni oshirilsa — YANGI retsept bo'yicha omborda yetarlimi
         if ($totalIncrease > 0) {
             $err = $this->checkMaterialStock($syncData, $totalIncrease);
             if ($err) {
@@ -325,7 +343,9 @@ class ProductsController extends Controller
             }
         }
 
-        DB::transaction(function () use ($product, $validated, $syncData, $diffs) {
+        DB::transaction(function () use (
+            $product, $validated, $syncData, $diffs, $oldRecipe, $companyId, $totalIncrease, $totalDecrease
+        ) {
             $product->update([
                 'nomi'        => $validated['nomi'],
                 'company_id'  => $validated['company_id'],
@@ -333,6 +353,7 @@ class ProductsController extends Controller
                 'izoh'        => $validated['izoh'] ?? null,
             ]);
 
+            // Retseptni yangilash
             $product->xomashyolar()->sync($syncData);
             $product->load('xomashyolar');
 
@@ -348,34 +369,31 @@ class ProductsController extends Controller
                     $rang->update(['rangi' => $d['rangi']]);
                 } else {
                     $rang = $product->ranglar()->create([
-                        'rangi' => $d['rangi'],
-                        'soni'  => 0,
+                        'rangi'      => $d['rangi'],
+                        'company_id' => $companyId,
+                        'soni'       => 0,
                     ]);
                 }
 
                 $existingIds[] = $rang->id;
-                $diff = $d['diff'];
+                $diff = (int) $d['diff'];
 
-                if ($diff !== 0) {
-                    if ($diff > 0) {
-                        $rang->increment('soni', $diff);
+                if ($diff === 0) {
+                    continue;
+                }
 
-                        // Ko'proq soni = ko'proq xomashyo sarflanadi.
-                        foreach ($product->xomashyolar as $x) {
+                if ($diff > 0) {
+                    // Oshirish: YANGI retsept bo'yicha xomashyo ayiriladi
+                    $rang->increment('soni', $diff);
+
+                    foreach ($product->xomashyolar as $x) {
+                        $sarf = (float) $x->pivot->sarf_miqdori;
+                        if ($sarf > 0) {
                             Xomashyo::where('id', $x->id)
-                                ->decrement('ombordagi_qoldiq', $x->pivot->sarf_miqdori * $diff);
-                        }
-                    } else {
-                        $rang->decrement('soni', abs($diff));
-
-                        // Soni kamaytirilsa — mos xomashyo omborga qaytariladi.
-                        foreach ($product->xomashyolar as $x) {
-                            Xomashyo::where('id', $x->id)
-                                ->increment('ombordagi_qoldiq', $x->pivot->sarf_miqdori * abs($diff));
+                                ->decrement('ombordagi_qoldiq', $sarf * $diff);
                         }
                     }
 
-                    // Tarixga qo'lda tuzatish sifatida yoziladi (diff manfiy bo'lishi ham mumkin).
                     IshlabChiqarish::create([
                         'product_id'      => $product->id,
                         'product_rang_id' => $rang->id,
@@ -383,18 +401,54 @@ class ProductsController extends Controller
                         'tan_narxi_dona'  => $tan,
                         'sana'            => now()->toDateString(),
                     ]);
+                } else {
+                    // Kamaytirish: ESKI retsept bo'yicha xomashyo QAYTARILADI
+                    $abs = abs($diff);
+                    $rang->decrement('soni', $abs);
+
+                    // Agar eski retsept bo'sh bo'lsa (kamdan-kam), yangi retseptdan foydalanamiz
+                    $recipeForReturn = $oldRecipe;
+                    if ($recipeForReturn === []) {
+                        foreach ($product->xomashyolar as $x) {
+                            $recipeForReturn[(int) $x->id] = (float) $x->pivot->sarf_miqdori;
+                        }
+                    }
+
+                    foreach ($recipeForReturn as $xomashyoId => $sarf) {
+                        $sarf = (float) $sarf;
+                        if ($sarf > 0) {
+                            Xomashyo::where('id', $xomashyoId)
+                                ->increment('ombordagi_qoldiq', $sarf * $abs);
+                        }
+                    }
+
+                    IshlabChiqarish::create([
+                        'product_id'      => $product->id,
+                        'product_rang_id' => $rang->id,
+                        'miqdori'         => -$abs,
+                        'tan_narxi_dona'  => $tan,
+                        'sana'            => now()->toDateString(),
+                    ]);
                 }
             }
 
-            // Formada yo'q bo'lgan ranglarni o'chirish (faqat soni 0 bo'lsa)
+            // Formada yo'q, soni 0 bo'lgan ranglarni o'chirish
             $product->ranglar()
                 ->whereNotIn('id', $existingIds)
                 ->where('soni', 0)
                 ->delete();
         });
 
-        return redirect()->route('admin.products.index')
-            ->with('success', "Mahsulot, retsept va ranglar soni yangilandi.");
+        $msg = 'Mahsulot yangilandi.';
+        if ($totalIncrease > 0 && $totalDecrease > 0) {
+            $msg = "Rang soni o'zgardi: +{$totalIncrease} / -{$totalDecrease} dona. Xomashyo omborda moslashtirildi.";
+        } elseif ($totalIncrease > 0) {
+            $msg = "Rang soni +{$totalIncrease} dona oshirildi, xomashyo ombordan ayirildi.";
+        } elseif ($totalDecrease > 0) {
+            $msg = "Rang soni -{$totalDecrease} dona kamaytirildi, xomashyo omborga qaytarildi.";
+        }
+
+        return redirect()->route('admin.products.index')->with('success', $msg);
     }
 
     public function destroy(Products $product)

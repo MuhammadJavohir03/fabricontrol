@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrakController;
+use App\Http\Controllers\BuyurtmaController;
 use App\Http\Controllers\ChevarController;
 use App\Http\Controllers\ChiqimController;
 use App\Http\Controllers\CompanyController;
@@ -69,6 +70,11 @@ Route::middleware(['auth', 'company'])->group(function () {
 
         Route::put('sotuvlar/{sotuv}', [ProductsController::class, 'updateSell'])->name('sotuvlar.update');
         Route::delete('sotuvlar/{sotuv}', [ProductsController::class, 'destroySell'])->name('sotuvlar.destroy');
+        Route::get('/admin/buyurtmalar', [BuyurtmaController::class, 'index'])->name('admin.buyurtmalar.index');
+        Route::post('/admin/buyurtmalar', [BuyurtmaController::class, 'store'])->name('admin.buyurtmalar.store');
+        Route::put('/admin/buyurtmalar/{buyurtma}', [BuyurtmaController::class, 'update'])->name('admin.buyurtmalar.update');
+        Route::put('/admin/buyurtmalar/{buyurtma}/holat', [BuyurtmaController::class, 'updateHolat'])->name('admin.buyurtmalar.holat');
+        Route::delete('/admin/buyurtmalar/{buyurtma}', [BuyurtmaController::class, 'destroy'])->name('admin.buyurtmalar.destroy');
     });
 });
 

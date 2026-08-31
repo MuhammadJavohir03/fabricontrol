@@ -95,4 +95,8 @@ class Company extends Model
     public function braklar(){
         return $this->hasMany(Brak::class, 'company_id');
     }
+
+    public function buyurtmalar(){
+        return $this->hasMany(Buyurtma::class, 'company_id');
+    }
 }
