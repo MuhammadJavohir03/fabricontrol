@@ -8,6 +8,7 @@ use App\Http\Controllers\ChiqimController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProfileController;          // ← qo‘shildi
 use App\Http\Controllers\XomashyoController;
 use App\Http\Controllers\YoqotishController;
 use Illuminate\Support\Facades\Route;
@@ -23,8 +24,7 @@ Route::post('/chiqish', [AuthController::class, 'logout'])->middleware('auth')->
 
 /*
 |--------------------------------------------------------------------------
-| Companiyalar (auth kerak, company middleware YO'Q —
-| super_admin companiya tanlamasa ham kira oladi)
+| Companiyalar (auth kerak, company middleware YO'Q)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
@@ -51,6 +51,10 @@ Route::middleware(['auth', 'company'])->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     Route::prefix('admin')->name('admin.')->group(function () {
+
+        // ===== PROFIL =====
+        Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
         // Mahsulotlar
         Route::resource('products', ProductsController::class)
@@ -94,9 +98,7 @@ Route::middleware(['auth', 'company'])->group(function () {
         Route::put('sotuvlar/{sotuv}', [ProductsController::class, 'updateSell'])->name('sotuvlar.update');
         Route::delete('sotuvlar/{sotuv}', [ProductsController::class, 'destroySell'])->name('sotuvlar.destroy');
 
-        // Buyurtmalar  ← TO'G'RI: prefix/name allaqachon admin.
-        // URL:  /admin/buyurtmalar
-        // name: admin.buyurtmalar.index
+        // Buyurtmalar
         Route::get('buyurtmalar', [BuyurtmaController::class, 'index'])->name('buyurtmalar.index');
         Route::post('buyurtmalar', [BuyurtmaController::class, 'store'])->name('buyurtmalar.store');
         Route::put('buyurtmalar/{buyurtma}', [BuyurtmaController::class, 'update'])->name('buyurtmalar.update');
