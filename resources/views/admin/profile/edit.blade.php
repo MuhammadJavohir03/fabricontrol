@@ -1,7 +1,5 @@
 <x-layouts.sidebar title="Profil">
 
-    <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v=2">
-
     <div class="content">
 
         @if (session('success'))
@@ -19,7 +17,6 @@
 
         <div class="profile-wrap">
 
-            {{-- Hero --}}
             <div class="profile-hero">
                 <div class="profile-avatar">
                     {{ mb_strtoupper(mb_substr($user->toliq_ism ?? 'A', 0, 1)) }}
@@ -36,7 +33,6 @@
                 </span>
             </div>
 
-            {{-- Forma --}}
             <div class="profile-card">
                 <div class="profile-card__head">
                     <h2>Ma’lumotlarni tahrirlash</h2>
@@ -49,43 +45,29 @@
 
                     <div class="profile-field">
                         <label class="profile-label">To‘liq ism</label>
-                        <input type="text"
-                               name="toliq_ism"
-                               class="profile-input"
-                               value="{{ old('toliq_ism', $user->toliq_ism) }}"
-                               required
-                               autocomplete="name">
+                        <input type="text" name="toliq_ism" class="profile-input"
+                               value="{{ old('toliq_ism', $user->toliq_ism) }}" required>
                     </div>
 
                     <div class="profile-field">
                         <label class="profile-label">Email</label>
-                        <input type="email"
-                               name="email"
-                               class="profile-input"
-                               value="{{ old('email', $user->email) }}"
-                               required
-                               autocomplete="email">
+                        <input type="email" name="email" class="profile-input"
+                               value="{{ old('email', $user->email) }}" required>
                     </div>
 
                     <hr class="profile-divider">
 
                     <div class="profile-field">
                         <label class="profile-label">Yangi parol</label>
-                        <input type="password"
-                               name="password"
-                               class="profile-input"
-                               autocomplete="new-password"
-                               placeholder="Bo‘sh qoldiring — o‘zgarmaydi">
+                        <input type="password" name="password" class="profile-input"
+                               placeholder="Bo‘sh qoldiring — o‘zgarmaydi" autocomplete="new-password">
                         <p class="profile-hint">Kamida 8 belgidan iborat bo‘lsin</p>
                     </div>
 
                     <div class="profile-field">
                         <label class="profile-label">Parolni tasdiqlash</label>
-                        <input type="password"
-                               name="password_confirmation"
-                               class="profile-input"
-                               autocomplete="new-password"
-                               placeholder="Yangi parolni qayta yozing">
+                        <input type="password" name="password_confirmation" class="profile-input"
+                               placeholder="Yangi parolni qayta yozing" autocomplete="new-password">
                     </div>
 
                     <div class="profile-actions">
