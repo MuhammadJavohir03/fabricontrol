@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/login.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/products.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/companies.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v=4">
     <link rel="icon" href="{{ asset('img/erka_poy_profile.png') }}" type="image/x-icon">
 </head>
 

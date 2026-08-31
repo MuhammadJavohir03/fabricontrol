@@ -1,0 +1,190 @@
+/* =======================================================
+   PROFIL SAHIFASI — admin.css / products.css bilan mos
+   ======================================================= */
+
+.profile-hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #818CF8, var(--accent), #6366F1);
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #818CF8, var(--accent));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    flex-shrink: 0;
+    box-shadow: 0 10px 28px -8px rgba(99, 102, 241, .45);
+    letter-spacing: -0.02em;
+}
+
+.profile-hero__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-hero__name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: var(--ink);
+    line-height: 1.25;
+}
+
+.profile-hero__email {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 10px;
+    word-break: break-all;
+}
+
+.profile-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+.profile-form-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.profile-form-card .card__head {
+    padding: 18px 22px 0;
+    margin-bottom: 0;
+}
+
+.profile-form-body {
+    padding: 18px 22px 24px;
+}
+
+.profile-section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--ink-faint);
+    margin: 0 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--line);
+}
+
+.profile-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.profile-form-grid .form-field {
+    margin: 0;
+}
+
+.profile-form-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.profile-hint {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* ---------- Mobil ---------- */
+@media (max-width: 640px) {
+    .profile-hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 28px 18px 22px;
+        gap: 16px;
+    }
+
+    .profile-avatar {
+        width: 84px;
+        height: 84px;
+        font-size: 32px;
+        border-radius: 22px;
+    }
+
+    .profile-hero__name {
+        font-size: 20px;
+    }
+
+    .profile-form-grid {
+        grid-template-columns: 1fr !important;
+        gap: 14px;
+    }
+
+    .profile-form-body {
+        padding: 16px 16px 22px;
+    }
+
+    .profile-form-actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    .profile-form-actions .btn {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+    }
+
+    .profile-form-card .card__head {
+        padding: 16px 16px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 400px) {
+    .profile-hero__name {
+        font-size: 18px;
+    }
+    .profile-avatar {
+        width: 76px;
+        height: 76px;
+        font-size: 28px;
+    }
+}

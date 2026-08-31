@@ -1,5 +1,8 @@
 <x-layouts.sidebar title="Profil">
 
+    {{-- CSS ni layoutga qo‘shmagan bo‘lsangiz --}}
+    <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v=1">
+
     <div class="content">
 
         @if (session('success'))
@@ -18,25 +21,47 @@
             </div>
         @endif
 
-        <div class="card table-card">
-            <div class="tape-edge tape-edge--accent"></div>
-            <div class="card__head" style="padding:18px 22px 0;">
-                <h2>Profilni tahrirlash</h2>
+        {{-- Profil hero --}}
+        <div class="profile-hero">
+            <div class="profile-avatar">
+                {{ mb_strtoupper(mb_substr($user->toliq_ism ?? 'A', 0, 1)) }}
+            </div>
+            <div class="profile-hero__info">
+                <h2 class="profile-hero__name">{{ $user->toliq_ism ?? 'Foydalanuvchi' }}</h2>
+                <p class="profile-hero__email">{{ $user->email }}</p>
+                <span class="profile-role">
+                    @if ($user->role === 'super_admin') Bosh Admin
+                    @elseif ($user->role === 'admin') Admin
+                    @elseif ($user->role === 'chevar') Chevar
+                    @elseif ($user->role === 'ega') Ega
+                    @else Mijoz
+                    @endif
+                </span>
+            </div>
+        </div>
+
+        {{-- Forma kartasi --}}
+        <div class="profile-form-card">
+            <div class="card__head">
+                <h2>Ma’lumotlarni tahrirlash</h2>
                 <a href="{{ route('admin.dashboard') }}" class="card__link">← Orqaga</a>
             </div>
 
-            <form action="{{ route('admin.profile.update') }}" method="POST" style="padding:18px 22px 24px;">
+            <form action="{{ route('admin.profile.update') }}" method="POST" class="profile-form-body">
                 @csrf
                 @method('PUT')
 
-                <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+                <p class="profile-section-title">Asosiy ma’lumotlar</p>
+
+                <div class="profile-form-grid">
                     <div class="form-field">
                         <label>To‘liq ism</label>
                         <input type="text"
                                name="toliq_ism"
                                value="{{ old('toliq_ism', $user->toliq_ism) }}"
                                required
-                               autocomplete="name">
+                               autocomplete="name"
+                               placeholder="Ism Familiya">
                     </div>
                     <div class="form-field">
                         <label>Email</label>
@@ -44,19 +69,21 @@
                                name="email"
                                value="{{ old('email', $user->email) }}"
                                required
-                               autocomplete="email">
+                               autocomplete="email"
+                               placeholder="email@example.com">
                     </div>
                 </div>
 
-                <hr class="modal__divider">
+                <p class="profile-section-title" style="margin-top:28px;">Parolni o‘zgartirish</p>
 
-                <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+                <div class="profile-form-grid">
                     <div class="form-field">
-                        <label>Yangi parol <small style="font-weight:500;opacity:.7;">(ixtiyoriy)</small></label>
+                        <label>Yangi parol</label>
                         <input type="password"
                                name="password"
                                autocomplete="new-password"
                                placeholder="Bo‘sh qoldiring — o‘zgarmaydi">
+                        <p class="profile-hint">Kamida 8 belgi, xavfsiz parol tavsiya etiladi</p>
                     </div>
                     <div class="form-field">
                         <label>Parolni tasdiqlash</label>
@@ -67,9 +94,11 @@
                     </div>
                 </div>
 
-                <div style="margin-top:24px;display:flex;gap:10px;justify-content:flex-end;">
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn--ghost">Bekor</a>
-                    <button type="submit" class="btn btn--primary">Saqlash</button>
+                <div class="profile-form-actions">
+                    <a href="{{ route('admin.dashboard') }}" class="btn btn--ghost">Bekor qilish</a>
+                    <button type="submit" class="btn btn--primary">
+                        Saqlash
+                    </button>
                 </div>
             </form>
         </div>
