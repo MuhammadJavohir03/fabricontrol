@@ -1,0 +1,360 @@
+:root{
+    --ink:            #0F172A;
+    --ink-soft:       rgba(15,23,42,.55);
+    --ink-faint:      rgba(15,23,42,.32);
+    --line:           rgba(15,23,42,.10);
+
+    --paper:          #F1F5F9;
+    --surface:        #FFFFFF;
+    --panel:          #1E293B;
+    --panel-2:        #0F172A;
+
+    --accent:         #6366F1;
+    --accent-dark:    #4F46E5;
+    --rust:           #EF4444;
+    --gold:           #F59E0B;
+    --gold-soft:      #FCD34D;
+    --sage:           #10B981;
+
+    --font-display:   'Space Grotesk', sans-serif;
+    --font-body:      'Inter', sans-serif;
+    --font-mono:      'JetBrains Mono', monospace;
+
+    --radius-sm:      10px;
+    --radius-md:      16px;
+    --radius-lg:      24px;
+}
+
+*, *::before, *::after{ box-sizing:border-box; }
+html, body{ margin:0; padding:0; height:100%; }
+body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    font-size:14.5px;
+    line-height:1.55;
+    background:var(--paper);
+}
+
+/* ---------- SAHIFA JOYLASHUVI ---------- */
+.login-page{
+    min-height:100vh;
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    padding:32px;
+}
+
+.login-frame{
+    width:100%;
+    max-width:1060px;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    box-shadow:0 1px 3px rgba(15,23,42,.05), 0 32px 64px -24px rgba(15,23,42,.30);
+    overflow:hidden;
+}
+
+/* ================= CHAP PANEL — BREND ================= */
+.login-side{
+    position:relative;
+    background:
+        radial-gradient(600px 450px at 10% -10%, rgba(129,140,248,.22), transparent 60%),
+        linear-gradient(175deg, var(--panel), var(--panel-2));
+    color:rgba(255,255,255,.9);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:48px 44px;
+    overflow:hidden;
+}
+
+.login-side::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:repeating-linear-gradient(
+        180deg,
+        rgba(255,255,255,.04) 0px, rgba(255,255,255,.04) 1px,
+        transparent 1px, transparent 32px
+    );
+    pointer-events:none;
+}
+
+.login-side__brand{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+.login-side__mark{
+    width:42px; height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg, #818CF8, var(--accent));
+    color:#fff;
+    display:grid; place-items:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:18px;
+    box-shadow:0 8px 24px -6px rgba(99,102,241,.55);
+}
+.login-side__brand-text{
+    font-family:var(--font-display);
+    font-size:18px;
+    letter-spacing:.01em;
+    color:#fff;
+}
+.login-side__brand-text small{
+    display:block;
+    font-family:var(--font-body);
+    font-size:11px;
+    font-weight:500;
+    color:rgba(255,255,255,.4);
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    margin-top:2px;
+}
+
+.login-side__body{
+    position:relative;
+    max-width:360px;
+}
+.login-side__quote-mark{
+    font-family:var(--font-display);
+    font-size:48px;
+    line-height:1;
+    color:var(--gold-soft);
+    opacity:.45;
+    margin-bottom:8px;
+}
+.login-side__body h1{
+    font-family:var(--font-display);
+    font-size:28px;
+    font-weight:600;
+    line-height:1.3;
+    margin:0 0 16px;
+    color:#fff;
+}
+.login-side__body p{
+    margin:0;
+    color:rgba(255,255,255,.55);
+    font-size:14.5px;
+}
+
+.login-side__footer{ position:relative; }
+.login-side__stats{
+    display:flex;
+    gap:36px;
+    padding-top:24px;
+    border-top:1px solid rgba(255,255,255,.10);
+}
+.login-side__stat-num{
+    font-family:var(--font-mono);
+    font-size:22px;
+    color:var(--gold-soft);
+    letter-spacing:-.02em;
+}
+.login-side__stat-label{
+    font-size:11px;
+    color:rgba(255,255,255,.38);
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    margin-top:3px;
+}
+
+/* ================= O'NG PANEL — FORMA ================= */
+.login-form-side{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:52px 48px;
+}
+.login-card{ width:100%; max-width:360px; }
+
+.login-card__eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.07em;
+    color:var(--accent);
+    margin-bottom:12px;
+}
+.login-card__eyebrow::before{
+    content:'';
+    width:7px; height:7px;
+    border-radius:50%;
+    background:var(--accent);
+}
+
+.login-card h2{
+    font-family:var(--font-display);
+    font-size:26px;
+    font-weight:600;
+    margin:0 0 8px;
+    letter-spacing:-.01em;
+}
+.login-card__sub{
+    margin:0 0 32px;
+    color:var(--ink-soft);
+    font-size:14px;
+}
+
+/* ---------- FORMA ELEMENTLARI ---------- */
+.field{ margin-bottom:20px; }
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+    color:var(--ink);
+}
+
+.input-wrap{ position:relative; }
+.input-wrap .input-icon{
+    position:absolute;
+    left:14px; top:50%;
+    transform:translateY(-50%);
+    color:var(--ink-faint);
+    display:flex;
+    pointer-events:none;
+}
+.input-wrap input[type="email"],
+.input-wrap input[type="password"],
+.input-wrap input[type="text"]{
+    width:100%;
+    padding:13px 14px 13px 42px;
+    font-family:var(--font-body);
+    font-size:14.5px;
+    color:var(--ink);
+    background:#F8FAFC;
+    border:1.5px solid var(--line);
+    border-radius:var(--radius-sm);
+    outline:none;
+    transition:border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.input-wrap input::placeholder{ color:var(--ink-faint); }
+.input-wrap input:focus{
+    background:#fff;
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px rgba(99,102,241,.12);
+}
+
+.field-error{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--rust);
+}
+
+.field-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:28px;
+}
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    user-select:none;
+}
+.checkbox input{
+    appearance:none;
+    -webkit-appearance:none;
+    width:18px; height:18px;
+    border:1.5px solid var(--line);
+    border-radius:6px;
+    background:#fff;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    transition:background .15s ease, border-color .15s ease;
+}
+.checkbox input:checked{
+    background:var(--accent);
+    border-color:var(--accent);
+}
+.checkbox input:checked::after{
+    content:'✓';
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+}
+
+.link-muted{
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--accent);
+    transition:color .15s ease;
+}
+.link-muted:hover{ color:var(--accent-dark); }
+
+.btn-primary{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 18px;
+    background:linear-gradient(135deg, #818CF8, var(--accent));
+    color:#fff;
+    border:none;
+    border-radius:var(--radius-sm);
+    font-family:var(--font-body);
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+    box-shadow:0 10px 28px -10px rgba(99,102,241,.5);
+    transition:all .2s ease;
+}
+.btn-primary:hover{
+    background:linear-gradient(135deg, var(--accent), var(--accent-dark));
+    box-shadow:0 14px 32px -8px rgba(99,102,241,.55);
+    transform:translateY(-1px);
+}
+.btn-primary:active{ transform:translateY(0); }
+.btn-primary svg{ transition:transform .15s ease; }
+.btn-primary:hover svg{ transform:translateX(2px); }
+
+.login-alert{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    background:rgba(239,68,68,.07);
+    border:1px solid rgba(239,68,68,.18);
+    color:var(--rust);
+    font-size:13.5px;
+    font-weight:600;
+    padding:14px 16px;
+    border-radius:var(--radius-sm);
+    margin-bottom:24px;
+}
+
+.login-card__footer{
+    margin-top:28px;
+    text-align:center;
+    font-size:13.5px;
+    color:var(--ink-faint);
+}
+
+/* ---------- RESPONSIV ---------- */
+@media (max-width: 900px){
+    .login-page{ padding:0; }
+    .login-frame{
+        grid-template-columns:1fr;
+        border-radius:0;
+        box-shadow:none;
+        min-height:100vh;
+    }
+    .login-side{ display:none; }
+    .login-form-side{ padding:40px 24px; }
+}

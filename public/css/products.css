@@ -1,0 +1,562 @@
+.btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background .18s ease, opacity .18s ease, border-color .18s ease, transform .1s ease, box-shadow .18s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn:active {
+    transform: scale(.96);
+}
+
+.btn--primary {
+    background: linear-gradient(135deg, #818CF8, var(--accent));
+    color: #fff;
+    box-shadow: 0 8px 20px -8px rgba(99, 102, 241, .5);
+}
+
+.btn--primary:hover {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+    box-shadow: 0 10px 24px -6px rgba(99, 102, 241, .55);
+}
+
+.btn--ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    border-color: var(--line);
+}
+
+.btn--ghost:hover {
+    background: rgba(99, 102, 241, .06);
+    border-color: rgba(99, 102, 241, .3);
+    color: var(--accent-dark);
+}
+
+.alert {
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    animation: fadeInUp .3s ease both;
+    border-left: 4px solid transparent;
+}
+
+.alert--success {
+    background: rgba(16, 185, 129, .1);
+    color: #047857;
+    border-left-color: var(--sage);
+}
+
+.alert--error {
+    background: rgba(239, 68, 68, .1);
+    color: #B91C1C;
+    border-left-color: var(--rust);
+}
+
+/* ---------- Sahifa navigatsiya ---------- */
+.page-toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    position: sticky;
+    top: 72px;
+    z-index: 4;
+}
+
+.page-toc a {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink-soft);
+    border: 1px solid transparent;
+    transition: all .18s ease;
+}
+
+.page-toc a:hover,
+.page-toc a.is-active {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    border-color: rgba(99, 102, 241, .25);
+}
+
+/* ---------- Accordion — TO'G'RI VERSIYA ----------
+   Faqat vertikal ochiladi. max-height animatsiyasi.
+------------------------------------------------------------------------ */
+.acc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    margin-bottom: 18px;
+    transition: box-shadow .25s ease;
+}
+
+.acc:hover {
+    box-shadow: 0 4px 16px -8px rgba(15, 23, 42, .12);
+}
+
+.acc__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+    padding: 18px 22px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: left;
+    transition: background .15s ease;
+}
+
+.acc__head:hover {
+    background: rgba(99, 102, 241, .04);
+}
+
+.acc__head-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.acc__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.acc__meta {
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-faint);
+}
+
+.acc__chevron {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--paper);
+    display: grid;
+    place-items: center;
+    color: var(--ink-faint);
+    transition: transform .3s var(--ease), background .2s ease;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.acc__head:hover .acc__chevron {
+    background: rgba(99, 102, 241, .1);
+    color: var(--accent);
+}
+
+.acc.is-open .acc__chevron {
+    transform: rotate(180deg);
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+/* Asosiy accordion body — faqat vertikal */
+.acc__body {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height .4s cubic-bezier(.4, 0, .2, 1), opacity .25s ease;
+    will-change: max-height;
+}
+
+.acc.is-open .acc__body {
+    max-height: 2500px;
+    opacity: 1;
+}
+
+.acc__toolbar {
+    padding: 14px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+.acc .table thead th {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+}
+
+.acc__scroll {
+    max-height: min(440px, 60vh);
+    overflow: auto;
+}
+
+/* ---------- Modal ---------- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .45);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 20px;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+    animation: overlayIn .2s ease;
+}
+
+@keyframes overlayIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: var(--surface);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 640px;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 28px 70px -24px rgba(15, 23, 42, .45);
+    animation: modalIn .25s var(--ease);
+    border: 1px solid var(--line);
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.modal__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.modal__head h2 {
+    font-size: 17px;
+}
+
+.modal__close {
+    background: var(--paper);
+    border: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--ink-faint);
+    transition: background .15s ease, color .15s ease;
+}
+
+.modal__close:hover {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+.modal__body {
+    padding: 22px 24px;
+    overflow-y: auto;
+}
+
+.modal__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 18px 24px;
+    border-top: 1px solid var(--line);
+    background: rgba(241, 245, 249, .5);
+}
+
+.modal__divider {
+    border: none;
+    border-top: 1px dashed var(--line);
+    margin: 20px 0;
+}
+
+/* ---------- Forma ---------- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-field label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select,
+.xomashyo-select,
+.xomashyo-miqdor,
+.ss-input {
+    font-family: var(--font-body);
+    font-size: 14px;
+    padding: 10px 13px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #FAFBFC;
+    color: var(--ink);
+    width: 100%;
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus,
+.ss-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* ---------- Search-select ---------- */
+.search-select {
+    position: relative;
+    width: 100%;
+}
+
+.ss-input {
+    width: 100%;
+}
+
+.ss-list {
+    display: none;
+    position: absolute;
+    z-index: 40;
+    left: 0;
+    right: 0;
+    top: calc(100% + 5px);
+    max-height: 220px;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lift);
+    padding: 4px;
+}
+
+.ss-list.is-open {
+    display: block;
+    animation: fadeInUp .14s ease;
+}
+
+.ss-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    font-size: 13.5px;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    transition: background .12s ease;
+}
+
+.ss-item:last-child {
+    margin-bottom: 0;
+}
+
+.ss-item:hover,
+.ss-item.is-active {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+}
+
+.ss-empty {
+    padding: 14px;
+    font-size: 13px;
+    color: var(--ink-faint);
+    text-align: center;
+}
+
+/* ---------- Retsept qatorlari ---------- */
+.xomashyo-row {
+    display: grid;
+    grid-template-columns: 1fr 110px 34px;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: start;
+}
+
+.xomashyo-row--chevar {
+    grid-template-columns: 1.2fr 80px 100px 100px 34px;
+}
+
+.xomashyo-remove {
+    background: rgba(239, 68, 68, .1);
+    color: var(--rust);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 17px;
+    height: 42px;
+    transition: background .15s ease, transform .1s ease;
+}
+
+.xomashyo-remove:hover {
+    background: rgba(239, 68, 68, .18);
+    transform: scale(1.05);
+}
+
+.recipe-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    color: var(--ink-soft);
+}
+
+/* ---------- Filter bar ---------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+}
+
+/* Table search */
+.table-search {
+    font-family: var(--font-body);
+    font-size: 13.5px;
+    padding: 9px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #FAFBFC;
+    color: var(--ink);
+    transition: all .18s ease;
+}
+
+.table-search:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: #fff;
+    box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .xomashyo-row {
+        grid-template-columns: 1fr 90px 34px;
+    }
+
+    .xomashyo-row--chevar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .page-toc {
+        top: 60px;
+    }
+}
+
+/* ---------- + Rang / + Xomashyo / + Chevar tugmalari ---------- */
+.card__head .card__link,
+button.card__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(99, 102, 241, .28);
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background .15s ease, border-color .15s ease, transform .1s ease, box-shadow .15s ease;
+    line-height: 1.2;
+}
+
+.card__head .card__link:hover,
+button.card__link:hover {
+    background: rgba(99, 102, 241, .2);
+    border-color: var(--accent);
+    color: var(--accent-dark);
+    box-shadow: 0 4px 12px -4px rgba(99, 102, 241, .35);
+    transform: translateY(-1px);
+}
+
+.card__head .card__link:active,
+button.card__link:active {
+    transform: translateY(0);
+}
+
+/* Rang / xomashyo qatorlari ichidagi inputlar bir xil balandlik */
+#rang-rows .ss-input,
+#edit-rang-rows .ss-input,
+#xomashyo-rows .ss-input {
+    height: 42px;
+}
+
+#rang-rows .xomashyo-miqdor,
+#edit-rang-rows .xomashyo-miqdor {
+    height: 42px;
+    text-align: center;
+}

@@ -1,0 +1,179 @@
+/* =======================================================
+   COMPANIYALAR SAHIFASI — admin.css / products.css bilan
+   bir xil o'zgaruvchilar va uslubdan foydalanadi.
+   ======================================================= */
+
+.company-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+}
+
+.company-head__sub {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--ink-faint);
+}
+
+/* ---------- Kartochkalar to'ri ---------- */
+.company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.company-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent-color, var(--accent));
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: fadeInUp .4s var(--ease) both;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+
+.company-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+}
+
+.company-card--ok { --accent-color: var(--sage); }
+.company-card--warn { --accent-color: var(--gold); }
+.company-card--blocked { --accent-color: var(--rust); opacity: .75; }
+
+.company-card__head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.company-card__avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #818CF8, var(--accent));
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 17px;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px -6px rgba(99, 102, 241, .45);
+}
+
+.company-card__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.3;
+}
+
+.company-card__phone {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    margin-top: 2px;
+}
+
+.company-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.company-badge--ok { background: rgba(16, 185, 129, .12); color: var(--sage); }
+.company-badge--warn { background: rgba(245, 158, 11, .14); color: #B45309; }
+.company-badge--danger { background: rgba(239, 68, 68, .12); color: var(--rust); }
+
+.company-card__note {
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    line-height: 1.5;
+}
+
+.company-card__users {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--paper);
+    border-radius: var(--radius-sm);
+}
+
+.company-user-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.company-user-row__email {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.company-user-row form {
+    flex-shrink: 0;
+}
+
+.company-user-row__remove {
+    background: none;
+    border: none;
+    color: var(--ink-faint);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 6px;
+    transition: background .15s ease, color .15s ease;
+}
+
+.company-user-row__remove:hover {
+    background: rgba(239, 68, 68, .12);
+    color: var(--rust);
+}
+
+.company-card__actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 4px;
+}
+
+.company-card__actions .btn {
+    padding: 8px 14px;
+    font-size: 12.5px;
+}
+
+.company-empty {
+    color: var(--ink-faint);
+    font-size: 14px;
+    padding: 50px 0;
+    text-align: center;
+    border: 1px dashed var(--line);
+    border-radius: var(--radius-md);
+}
+
+@media (max-width: 640px) {
+    .company-grid { grid-template-columns: 1fr; }
+}
