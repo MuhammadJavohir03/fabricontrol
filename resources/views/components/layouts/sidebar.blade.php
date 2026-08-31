@@ -59,10 +59,21 @@
                     </a>
                 @endif
             @endauth
-            <a href="#" class="sidebar__link">
+            <a href="{{ route('admin.buyurtmalar.index') }}"
+               class="sidebar__link {{ request()->routeIs('admin.buyurtmalar.*') ? 'is-active' : '' }}"
+               onclick="window.closeAppSidebar && window.closeAppSidebar()">
                 <span class="icon">▥</span> <span>Buyurtmalar</span>
-                @if (($newOrdersCount ?? 0) > 0)
-                    <span class="sidebar__badge">{{ $newOrdersCount }}</span>
+                @php
+                    $__yangiBuyurtma = 0;
+                    try {
+                        $__cid = \App\Models\Company::activeId();
+                        if ($__cid) {
+                            $__yangiBuyurtma = \App\Models\Buyurtma::where('company_id', $__cid)->where('holat', 'yangi')->count();
+                        }
+                    } catch (\Throwable $e) {}
+                @endphp
+                @if ($__yangiBuyurtma > 0)
+                    <span class="sidebar__badge">{{ $__yangiBuyurtma }}</span>
                 @endif
             </a>
             <div class="sidebar__section-label">Sozlamalar</div>
