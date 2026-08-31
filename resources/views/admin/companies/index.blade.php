@@ -180,7 +180,7 @@
                             <div class="form-field">
                                 <label for="user-role">Rol</label>
                                 <select id="user-role" name="role" required>
-                                    <option value="ega" @selected(old('role') === 'ega')>Ega</option>
+                                    <option value="admin" @selected(old('role') === 'admin')>Admin</option>
                                     <option value="chevar" @selected(old('role') === 'chevar')>Chevar</option>
                                     <option value="client" @selected(old('role') === 'client')>Mijoz</option>
                                 </select>
