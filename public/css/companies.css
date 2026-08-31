@@ -45,18 +45,9 @@
     box-shadow: var(--shadow-lift);
 }
 
-.company-card--ok {
-    --accent-color: var(--sage);
-}
-
-.company-card--warn {
-    --accent-color: var(--gold);
-}
-
-.company-card--blocked {
-    --accent-color: var(--rust);
-    opacity: .75;
-}
+.company-card--ok { --accent-color: var(--sage); }
+.company-card--warn { --accent-color: var(--gold); }
+.company-card--blocked { --accent-color: var(--rust); opacity: .75; }
 
 .company-card__head {
     display: flex;
@@ -105,20 +96,9 @@
     border-radius: 999px;
 }
 
-.company-badge--ok {
-    background: rgba(16, 185, 129, .12);
-    color: var(--sage);
-}
-
-.company-badge--warn {
-    background: rgba(245, 158, 11, .14);
-    color: #B45309;
-}
-
-.company-badge--danger {
-    background: rgba(239, 68, 68, .12);
-    color: var(--rust);
-}
+.company-badge--ok { background: rgba(16, 185, 129, .12); color: var(--sage); }
+.company-badge--warn { background: rgba(245, 158, 11, .14); color: #B45309; }
+.company-badge--danger { background: rgba(239, 68, 68, .12); color: var(--rust); }
 
 .company-card__note {
     font-size: 12.5px;
@@ -194,8 +174,42 @@
     border-radius: var(--radius-md);
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .company-grid {
         grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .company-head {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .company-head .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .company-card {
+        padding: 18px;
+    }
+
+    .company-card__actions {
+        gap: 8px;
+    }
+
+    .company-card__actions .btn {
+        flex: 1 1 calc(50% - 8px);
+        justify-content: center;
+        min-height: 40px;
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    .company-card__actions .btn {
+        flex: 1 1 100%;
     }
 }
