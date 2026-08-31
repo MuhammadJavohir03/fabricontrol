@@ -175,30 +175,11 @@
 }
 
 @media (max-width: 768px) {
-    .company-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
-    }
-
-    .company-head {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-    }
-
-    .company-head .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .company-card {
-        padding: 18px;
-    }
-
-    .company-card__actions {
-        gap: 8px;
-    }
-
+    .company-grid { grid-template-columns: 1fr; gap: 14px; }
+    .company-head { flex-direction: column; align-items: stretch; gap: 12px; }
+    .company-head .btn { width: 100%; justify-content: center; }
+    .company-card { padding: 18px; }
+    .company-card__actions { gap: 8px; }
     .company-card__actions .btn {
         flex: 1 1 calc(50% - 8px);
         justify-content: center;
@@ -207,9 +188,6 @@
         padding: 8px 10px;
     }
 }
-
 @media (max-width: 400px) {
-    .company-card__actions .btn {
-        flex: 1 1 100%;
-    }
+    .company-card__actions .btn { flex: 1 1 100%; }
 }
