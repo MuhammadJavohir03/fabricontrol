@@ -458,21 +458,53 @@ class ProductsController extends Controller
         }
 
         $nomi = $product->nomi;
-        $product->load(['xomashyolar', 'ranglar']);
-        $jamiSoni = (int) $product->ranglar->sum('soni');
 
-        DB::transaction(function () use ($product, $jamiSoni) {
-            if ($jamiSoni > 0 && $product->xomashyolar->isNotEmpty()) {
-                foreach ($product->xomashyolar as $x) {
-                    $x->increment('ombordagi_qoldiq', $x->pivot->sarf_miqdori * $jamiSoni);
+        // Pivot va ranglar sonini to'g'ridan-to'g'ri DB dan olamiz (relationship ishonchsiz bo'lishi mumkin)
+        $jamiSoni = (int) DB::table('product_ranglar')
+            ->where('product_id', $product->id)
+            ->sum('soni');
+
+        $recipe = DB::table('product_xomashyolari')
+            ->where('product_id', $product->id)
+            ->get();
+
+        $qaytarilgan = [];
+
+        DB::transaction(function () use ($product, $jamiSoni, $recipe, &$qaytarilgan) {
+            if ($jamiSoni > 0 && $recipe->isNotEmpty()) {
+                foreach ($recipe as $row) {
+                    $sarf = (float) $row->sarf_miqdori;
+                    if ($sarf <= 0) {
+                        continue;
+                    }
+                    $miqdor = $sarf * $jamiSoni;
+
+                    // Omborga qaytarish — model emas, DB (aniq ishlaydi)
+                    DB::table('xomashyolar')
+                        ->where('id', $row->xomashyo_id)
+                        ->increment('ombordagi_qoldiq', $miqdor);
+
+                    $x = DB::table('xomashyolar')->where('id', $row->xomashyo_id)->first();
+                    if ($x) {
+                        $qaytarilgan[] = ($x->nomi ?? ('#'.$row->xomashyo_id))
+                            . ': +' . rtrim(rtrim(number_format($miqdor, 3, '.', ''), '0'), '.');
+                    }
                 }
             }
-            $product->delete(); // cascade → ranglar ham o‘chadi
+
+            // Avval pivot / bog'liq yozuvlar, keyin mahsulot
+            DB::table('product_xomashyolari')->where('product_id', $product->id)->delete();
+            $product->delete();
         });
 
-        $msg = $jamiSoni > 0
-            ? "«{$nomi}» o'chirildi, {$jamiSoni} dona uchun xomashyo qaytarildi."
-            : "«{$nomi}» o'chirildi.";
+        if ($jamiSoni > 0 && $qaytarilgan) {
+            $msg = "«{$nomi}» o'chirildi ({$jamiSoni} dona). Xomashyo qaytarildi: "
+                . implode(', ', $qaytarilgan) . '.';
+        } elseif ($jamiSoni > 0) {
+            $msg = "«{$nomi}» o'chirildi ({$jamiSoni} dona), lekin retsept topilmadi — xomashyo qaytarilmadi.";
+        } else {
+            $msg = "«{$nomi}» o'chirildi. Omborda 0 dona edi — xomashyo qaytarilmadi.";
+        }
 
         return redirect()->route('admin.products.index')->with('success', $msg);
     }
