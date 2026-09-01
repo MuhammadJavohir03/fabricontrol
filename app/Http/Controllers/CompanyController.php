@@ -71,7 +71,7 @@ class CompanyController extends Controller
             : now();
 
         $company->update([
-            'kirish_muddati' => $boshlanish->copy()->addDays($validated['kun'])->toDateString(),
+            'kirish_muddati' => $boshlanish->copy()->addDays((int) $validated['kun'])->toDateString(),
             'faol'           => true,
         ]);
 
