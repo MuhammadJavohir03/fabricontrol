@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ asset('css/products.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/companies.css') }}?v=4">
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}?v=4">
-    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}?v=1.1">
 </head>
 
 <body>
