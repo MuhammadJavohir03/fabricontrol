@@ -12,6 +12,8 @@
                         Sizning companiyangiz uchun kirish muddati tugagan.
                     @endif
                     Davom etish uchun to'lovni amalga oshiring va tizim administratori bilan bog'laning.
+                    <br>
+                    +998942003584
                 </p>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
